@@ -1,0 +1,37 @@
+import serial
+from threading import Thread
+import time
+
+command = "C" # Initial Reset
+ser=serial.Serial("/dev/ttyACM3",9600)
+ser.baudrate=9600
+
+def get_data():
+    ser.write(b'A')
+    try:
+        while True:
+            time.sleep(1)
+            print(ser.readline())
+    except KeyboardInterrupt:
+        print('Stop reading the buffer')
+        stop_data()
+        
+def stop_data():
+    ser.write(b'B')
+    
+def reset():
+    ser.write(b'C')
+    
+def configure_sensors():
+    ser.write(b'D')
+
+if __name__ == "__main__":
+    while True:
+        command = raw_input("Insert the command (A, B, C or D)\n")
+        if command == "A": get_data()
+        if command == "B": stop_data()
+        if command == "C": reset()
+        if command == "D": configure_sensors()
+        else: command = "C"
+        print(ser.readline())
+        
