@@ -5,6 +5,6 @@ const Grip_model = new mongoose.Schema({
     rear_grip  : Number,
     bottom_grip: Number
 }, {
-    timestamps: True
+    timestamps: true
 });
 module.exports = mongoose.model('grip_model', Grip_model);

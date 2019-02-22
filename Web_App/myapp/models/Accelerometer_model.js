@@ -5,6 +5,6 @@ const Accelerometer_model = new mongoose.Schema({
   y_axis: Number,
   z_axis: Number
 }, {
-  timestamps: True
+  timestamps: true
 });
 module.exports = mongoose.model('accelerometer_model', Accelerometer_model);
