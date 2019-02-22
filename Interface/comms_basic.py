@@ -3,13 +3,25 @@ from threading import Thread
 import time
 
 command = "C" # Initial Reset
+# Setting up serial communication
 ser=serial.Serial("/dev/ttyACM3",9600)
 ser.baudrate=9600
 
+##########################################
+# some examples for python dictionaries
+gyroscope =[{ 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'}, { 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'}]
+gyroscope.append({ 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'})
+gyrscope[0]['x-axis'] # display 100
+def format_data():
+    pass
+def update_database:
+    pass
+
+###########################################
 def get_data():
     ser.write(b'A')
     try:
-        while True:
+        while True:# Getting the data part 
             time.sleep(1)
             print(ser.readline())
     except KeyboardInterrupt:
