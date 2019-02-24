@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 // import controllers
 const accelerometer  = require('./controllers/accelerometer.js')
 const grip           = require('./controllers/grip.js')
@@ -47,6 +48,8 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // define routes
 app.use('/', indexRouter);
