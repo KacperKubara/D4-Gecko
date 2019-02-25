@@ -1,41 +1,41 @@
 import requests
 import json
-import time 
+import time
+
+# Mock data
 grip_data          = {'front_grip': 250, 'rear_grip': 100, 'bottom_grip': 300}
 accelerometer_data = {'x_axis': 100, 'y_axis': 2033, 'z_axis': 300}
 gyroscope_data     = {'x_axis': 150, 'y_axis': 203, 'z_axis': 400}
+
 # Routes for POST requests
 grip_url          = "http://localhost:3000/grip"
 accelerometer_url = "http://localhost:3000/accelerometer"
 gyroscope_url     = "http://localhost:3000/gyroscope"
 
-def post(data, url):
-    if is_dict(data) == True:
-        json_data = jsonify(data)   
-        requests.post(url, data = json_data)
-    else: print('Error, data not a dictionary!')    
+def unit_test():
+    # Testing is_dict():
+    print('Testing is_dict() function...')
+    print('Passing dict...')
+    print(is_dict(grip_data))
+    print('Passing not a dict...')
+    print(is_dict(10))
     
-def is_dict(data):
-    if type(data) == dict:
+    # Testing post():
+    print('\n Testing post()...')
+    post(accelerometer_data, accelerometer_url)
+    time.sleep(1)
+    print('Success!')    
+
+def post(dict_data, url):
+    requests.post(url, dict_data)
+
+def is_dict(dict_data):
+    if type(dict_data) == dict:
         return True
     return False 
-
-def jsonify(data):
-    return json.dumps(data)
  
 if __name__ == '__main__':
-    for i in range (0, 3):
-        # Send accelerometer mock data
-        time.sleep(1)
-        post(accelerometer_data, accelerometer_url)
-
-        # Send grip mock data
-        time.sleep(1)
-        post(grip_data, grip_url)
-
-        # Send gyroscope mock data
-        time.sleep(1)
-        post(gyroscope_data, gyroscope_url)
+    requests.post("http://localhost:3000/accelerometer", data = {'x_axis': 100, 'y_axis': 2033, 'z_axis': 300})
 
 
 
