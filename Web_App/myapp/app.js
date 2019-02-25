@@ -10,9 +10,9 @@ const sassMiddleware = require('node-sass-middleware');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 // import controllers
-const accelerometer  = require('./controllers/accelerometer.js')
-const grip           = require('./controllers/grip.js')
-const gyroscope      = require('./controllers/gyroscope.js')
+const accelerometer = require('./controllers/accelerometer.js')
+const grip = require('./controllers/grip.js')
+const gyroscope = require('./controllers/gyroscope.js')
 
 // set up routers
 const indexRouter = require('./routes/index.js');
@@ -49,7 +49,9 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // define routes
 app.use('/', indexRouter);
@@ -65,6 +67,13 @@ app.get('/data_analysis', (req, res, next) => {
     title: 'Express.js App Example for Gecko Team - Data Analysis'
   });
 });
+//Get routes for fetching the data from database
+app.get('/accelerometer/recent', accelerometer.getRecent);
+app.get('/accelerometer/all', accelerometer.getAll);
+app.get('/grip/all', grip.getAll);
+app.get('/grip/recent', grip.getRecent);
+app.get('/gyroscope/recent', gyroscope.getRecent);
+app.get('/gyroscope/all', gyroscope.getAll);
 // POST routes
 app.post('/accelerometer', accelerometer.post);
 app.post('/grip', grip.post);
