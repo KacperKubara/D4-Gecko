@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import random
 
 # Mock data
 grip_data          = {'front_grip': 250, 'rear_grip': 100, 'bottom_grip': 300}
@@ -23,18 +24,19 @@ def unit_test():
     # Testing post():
     print('\nTesting send_data()...')
     # Send accelerometer_data
-    send_data(accelerometer_url, accelerometer_data)
+    send_data(accelerometer_url, random_data(accelerometer_data))
     time.sleep(1)
 
     # Send grip_data
-    send_data(grip_url, grip_data)
+    send_data(grip_url, random_data(grip_data))
     time.sleep(1)
     
     # Send gyroscope_data
-    send_data(gyroscope_url, gyroscope_data)
+    send_data(gyroscope_url, random_data(gyroscope_data))
     time.sleep(1)
     print('Success!')    
 
+# Sends the data
 def send_data(url, dict_data):
     if is_dict(dict_data) is True:
         try:
@@ -43,11 +45,22 @@ def send_data(url, dict_data):
             print('Error during post request!')
     else: print('Data is not a dict!')
 
+# Check if the data is of the dict type
 def is_dict(dict_data):
     if type(dict_data) == dict:
         return True
     return False 
- 
+
+# Randomizes the data
+def random_data(dict_data):
+    if type(dict_data) is dict:
+        for key in dict_data:
+            dict_data[key] = dict_data[key] + random.randint(0,100) - 50
+        return dict_data
+    else: 
+        print('Data is not a dict')
+        return 1
+
 if __name__ == '__main__':
     unit_test()
 
