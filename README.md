@@ -5,7 +5,8 @@ Code repository for the D4 design project
 2) To run the Web App see the section below
 ## Git commands
 If you want to upload and submit new files to the project just run those commands in the sequence:
-1) git pull    - Updates your projects
+1) git clone - clones the repository if you haven't done it before (run it only once)
+1.2) git pull    - Updates your projects
 2) git add .   - Add all of the file
 3) git commit -m "Message here" - Add comment to the modified code
 4) git push origin master  - Push the changes back to the repo
