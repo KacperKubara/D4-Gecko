@@ -4,9 +4,9 @@ import time
 import random
 
 # Mock data
-grip_data          = {'front_grip': 250, 'rear_grip': 100, 'bottom_grip': 300}
-accelerometer_data = {'x_axis': 100, 'y_axis': 2033, 'z_axis': 300}
-gyroscope_data     = {'x_axis': 150, 'y_axis': 203, 'z_axis': 400}
+grip_data          = {'front_grip': 250, 'rear_grip': 100, 'bottom_grip': 50}
+accelerometer_data = {'x_axis': 100, 'y_axis': 233, 'z_axis': 110}
+gyroscope_data     = {'x_axis': 150, 'y_axis': 203, 'z_axis': 100}
 
 # Routes for POST requests
 grip_url          = "http://localhost:3000/grip"

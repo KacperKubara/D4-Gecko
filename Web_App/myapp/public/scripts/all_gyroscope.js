@@ -26,17 +26,17 @@ fetch('http://localhost:3000/gyroscope/all')
         datasets: [{
           data: response.x_axis,
           label: "X-axis",
-          borderColor: "#C5DCA0",
+          borderColor: "#ECFEE8",
           fill: false
         }, {
           data: response.y_axis,
           label: "Y-axis",
-          borderColor: "#F5F2B8",
+          borderColor: "#C2EFEB",
           fill: false
         }, {
           data: response.z_axis,
           label: "Z-axis",
-          borderColor: "#F9DAD0",
+          borderColor: "#6EA4BF",
           fill: false
         }]
       },

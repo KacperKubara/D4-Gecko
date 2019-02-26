@@ -14,10 +14,6 @@ const accelerometer = require('./controllers/accelerometer.js')
 const grip = require('./controllers/grip.js')
 const gyroscope = require('./controllers/gyroscope.js')
 
-// set up routers
-const indexRouter = require('./routes/index.js');
-const usersRouter = require('./routes/users.js');
-
 const app = express();
 
 // view engine setup
@@ -53,20 +49,27 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// define routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 // GET routes
+app.get('/', function (req, res, next) {
+  res.render('pages/index', {
+    title: 'Gecko App'
+  });
+});
 app.get('/about', (req, res, next) => {
   res.render('pages/about', {
-    title: 'Express.js App Example for Gecko Team - About'
+    title: 'Gecko App'
   });
 });
 app.get('/data_analysis', (req, res, next) => {
   res.render('pages/data_analysis', {
-    title: 'Express.js App Example for Gecko Team - Data Analysis'
+    title: 'Gecko App'
   });
 });
+app.get('/configure', (req, res, next) => {
+  res.render('pages/configure'),{
+    title: 'Gecko App'
+  }
+})
 // POST routes
 app.post('/accelerometer', accelerometer.post);
 app.post('/grip', grip.post);

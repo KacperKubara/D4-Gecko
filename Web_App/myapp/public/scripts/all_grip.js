@@ -26,17 +26,17 @@ fetch('http://localhost:3000/grip/all')
         datasets: [{
           data: response.front_grip,
           label: "X-axis",
-          borderColor: "#3e95cd",
+          borderColor: "#5A352A",
           fill: false
         }, {
           data: response.rear_grip,
           label: "Y-axis",
-          borderColor: "#8e5ea2",
+          borderColor: "#8F857D",
           fill: false
         }, {
           data: response.bottom_grip,
           label: "Z-axis",
-          borderColor: "#3cba9f",
+          borderColor: "#DECBB7",
           fill: false
         }]
       },
