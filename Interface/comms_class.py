@@ -11,8 +11,10 @@ class ArduinoSerial:
         self.get_toggle = False
         self.stop_toggle = False
         self.run = True
-        threading.Thread(target=self.main_thread).start()
         self.data = JQueue()
+        self.formatted_data = JQueue()
+        threading.Thread(target=self.main_thread).start()
+        threading.Thread(target=self.store_data).start()
         
 #thread holds for an input and does accordingly
     def main_thread(self):
@@ -26,7 +28,8 @@ class ArduinoSerial:
                 self.get_toggle = True
             elif command == 'B':
                 self.stop_toggle = True
-                #print(self.data.elements())
+                print(self.data.elements())
+                print(self.formatted_data.elements())
             elif command == 'quit':
                 self.run = False
             elif command == 'C':
@@ -50,10 +53,11 @@ class ArduinoSerial:
             pass
 
     def get_data(self):
+        self.start_time = time.clock()
         while self.get_toggle:
-            print(self.ser.readline())
+            #print(self.ser.readline())
             #time.sleep(3)
-            #data.add(self.ser.readline())
+            self.data.add(self.ser.readline())
         self.stop_data()
 	
     def stop_data(self):
@@ -63,8 +67,14 @@ class ArduinoSerial:
       
     def toggle_all_false(self, *argv):
         for arg in argv:
-            arg = False			
-
+            arg = False		
+            
+    def store_data(self):
+        while self.run:
+            while not self.data.is_empty():
+                hold_dict = {'sensor data': self.data.dequeue(), 
+                'time': time.clock()-self.start_time}
+                self.formatted_data.add(hold_dict)
 
 if __name__ == "__main__":
     one = ArduinoSerial()
