@@ -95,10 +95,10 @@
 	a.black {
 		background-color: rgba(0,0,0,1);
 		color: rgba(255, 255, 255, 0.2);
-		border-color: rgba(255, 255, 255, 0.2);
+		border-color: rgba(85, 84, 84, 0.2);
 	}
 
-	a.red:hover {
+	a.black:hover {
 		color: rgba(0,0,0,1);
 	}
 	a.red {
