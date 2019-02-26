@@ -1,20 +1,20 @@
 fetch('http://localhost:3000/grip/all')
   .then(res => res.json())
   .then(response => {
-    let labels_grip = [];
+    let labels = [];
     let front_grip = [];
     let rear_grip = [];
     let bottom_grip = [];
     response.forEach(element => {
-      labels_grip.push(element.createdAt);
+      labels.push(element.createdAt);
       front_grip.push(element.front_grip);
       rear_grip.push(element.rear_grip);
       bottom_grip.push(element.bottom_grip);
     })
     return {
-      'labels': labels_grip,
-      'front_grip': front_grip,
-      'rear_grip': rear_grip,
+      'labels'     : labels,
+      'front_grip' : front_grip,
+      'rear_grip'  : rear_grip,
       'bottom_grip': bottom_grip
     }
   }).then(function renderChart(response) {
@@ -22,7 +22,7 @@ fetch('http://localhost:3000/grip/all')
     var myDoughnutChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels_grip: response.labels,
+        labels: response.labels,
         datasets: [{
           data: response.front_grip,
           label: "X-axis",
