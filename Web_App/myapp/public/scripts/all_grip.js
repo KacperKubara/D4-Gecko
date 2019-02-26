@@ -1,30 +1,50 @@
-var ctx = document.getElementById("all_grip");
-var myDoughnutChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2010],
-      datasets: [{ 
-          data: [86,114,106,106,200,111,133,221,783,2478],
-          label: "Front Grip",
+fetch('http://localhost:3000/grip/all')
+  .then(res => res.json())
+  .then(response => {
+    let labels_grip = [];
+    let front_grip = [];
+    let rear_grip = [];
+    let bottom_grip = [];
+    response.forEach(element => {
+      labels_grip.push(element.createdAt);
+      front_grip.push(element.front_grip);
+      rear_grip.push(element.rear_grip);
+      bottom_grip.push(element.bottom_grip);
+    })
+    return {
+      'labels': labels_grip,
+      'front_grip': front_grip,
+      'rear_grip': rear_grip,
+      'bottom_grip': bottom_grip
+    }
+  }).then(function renderChart(response) {
+    var ctx = document.getElementById("all_grip");
+    var myDoughnutChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels_grip: response.labels,
+        datasets: [{
+          data: response.front_grip,
+          label: "X-axis",
           borderColor: "#3e95cd",
           fill: false
-        }, { 
-          data: [282,350,411,502,635,809,947,1402,3700,5267],
-          label: "Rear Grip",
+        }, {
+          data: response.rear_grip,
+          label: "Y-axis",
           borderColor: "#8e5ea2",
           fill: false
-        }, { 
-          data: [168,170,178,190,203,276,408,547,675,734],
-          label: "Bottom Grip",
+        }, {
+          data: response.bottom_grip,
+          label: "Z-axis",
           borderColor: "#3cba9f",
           fill: false
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Past Grip Data'
         }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Past Grip Pressure Data'
       }
-    }
-});
+    });
+  })

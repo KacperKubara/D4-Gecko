@@ -1,30 +1,50 @@
-var ctx = document.getElementById("all_gyroscope");
-var myDoughnutChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2010],
-      datasets: [{ 
-          data: [86,114,106,106,200,111,133,221,783,2478],
-          label: "X-axis",
-          borderColor: "#6E0D25",
-          fill: false
-        }, { 
-          data: [282,350,411,502,635,809,947,1402,3700,5267],
-          label: "Y-axis",
-          borderColor: "#FFFFB3",
-          fill: false
-        }, { 
-          data: [168,170,178,190,203,276,408,547,675,734],
-          label: "Z-axis",
-          borderColor: "#774E24",
-          fill: false
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Past Grip Pressure Data'
-      }
+fetch('http://localhost:3000/gyroscope/all')
+  .then(res => res.json())
+  .then(response => {
+    let labels = [];
+    let x_axis = [];
+    let y_axis = [];
+    let z_axis = [];
+    response.forEach(element => {
+      labels.push(element.createdAt);
+      x_axis.push(element.x_axis);
+      y_axis.push(element.y_axis);
+      z_axis.push(element.z_axis);
+    })
+    return {
+      'labels': labels,
+      'x_axis': x_axis,
+      'y_axis': y_axis,
+      'z_axis': z_axis
     }
-});
+  }).then(function renderChart(response) {
+    var ctx = document.getElementById("all_gyroscope");
+    var myDoughnutChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: response.labels,
+        datasets: [{
+          data: response.x_axis,
+          label: "X-axis",
+          borderColor: "#C5DCA0",
+          fill: false
+        }, {
+          data: response.y_axis,
+          label: "Y-axis",
+          borderColor: "#F5F2B8",
+          fill: false
+        }, {
+          data: response.z_axis,
+          label: "Z-axis",
+          borderColor: "#F9DAD0",
+          fill: false
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Past gyroscope Data'
+        }
+      }
+    });
+  })
