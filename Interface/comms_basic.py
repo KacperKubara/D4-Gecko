@@ -4,17 +4,18 @@ import time
 
 command = "C" # Initial Reset
 # Setting up serial communication
-ser=serial.Serial("/dev/ttyACM3",9600)
+ser=serial.Serial("/dev/ttyACM0",9600)
 ser.baudrate=9600
 
 ##########################################
 # some examples for python dictionaries
-gyroscope =[{ 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'}, { 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'}]
-gyroscope.append({ 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'})
-gyrscope[0]['x-axis'] # display 100
+#gyroscope =[{ 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'}, { 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'}]
+#gyroscope.append({ 'x-axis': 100, 'y-axis': 200, 'z-axis': 2000, 'timestamp': 'somestuffhere'})
+#gyrscope[0]['x-axis'] # display 100
 def format_data():
     pass
-def update_database:
+    
+def update_database():
     pass
 
 ###########################################
