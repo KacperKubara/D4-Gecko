@@ -7,6 +7,8 @@ exports.post = (req, res) => {
         x_axis: req.body.x_axis,
         y_axis: req.body.y_axis,
         z_axis: req.body.z_axis       
+    }, function(err,doc){
+      res.status(200).send(doc);
     });    
 }
 exports.getAll = (req, res) => {

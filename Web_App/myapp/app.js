@@ -67,6 +67,11 @@ app.get('/data_analysis', (req, res, next) => {
     title: 'Express.js App Example for Gecko Team - Data Analysis'
   });
 });
+// POST routes
+app.post('/accelerometer', accelerometer.post);
+app.post('/grip', grip.post);
+app.post('/gyroscope', gyroscope.post);
+
 //Get routes for fetching the data from database
 app.get('/accelerometer/recent', accelerometer.getRecent);
 app.get('/accelerometer/all', accelerometer.getAll);
@@ -74,10 +79,7 @@ app.get('/grip/all', grip.getAll);
 app.get('/grip/recent', grip.getRecent);
 app.get('/gyroscope/recent', gyroscope.getRecent);
 app.get('/gyroscope/all', gyroscope.getAll);
-// POST routes
-app.post('/accelerometer', accelerometer.post);
-app.post('/grip', grip.post);
-app.post('/gyroscope', gyroscope.post);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

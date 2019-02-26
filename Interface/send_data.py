@@ -24,16 +24,16 @@ def unit_test():
     # Testing post():
     print('\nTesting send_data()...')
     # Send accelerometer_data
+    print('Accelerometer')
     send_data(accelerometer_url, random_data(accelerometer_data))
-    time.sleep(1)
 
     # Send grip_data
+    print('Grip')
     send_data(grip_url, random_data(grip_data))
-    time.sleep(1)
     
     # Send gyroscope_data
+    print('Gyroscope')
     send_data(gyroscope_url, random_data(gyroscope_data))
-    time.sleep(1)
     print('Success!')    
 
 # Sends the data
