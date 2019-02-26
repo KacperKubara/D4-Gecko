@@ -12,6 +12,7 @@ class ArduinoSerial:
         self.stop_toggle = False
         self.run = True
         threading.Thread(target=self.main_thread).start()
+        self.data = JQueue()
         
 #thread holds for an input and does accordingly
     def main_thread(self):
@@ -24,14 +25,15 @@ class ArduinoSerial:
             if command == 'A':
                 self.get_toggle = True
             elif command == 'B':
-				self.stop_toggle = True
+                self.stop_toggle = True
+                #print(self.data.elements())
             elif command == 'quit':
                 self.run = False
-            elif command == 'C'
+            elif command == 'C':
                 pass
-            elif command == 'D'
+            elif command == 'D':
                 pass
-            elif command == 'E'
+            elif command == 'E':
                 pass
             else:
                 print('Invalid command!')
@@ -51,6 +53,7 @@ class ArduinoSerial:
         while self.get_toggle:
             print(self.ser.readline())
             #time.sleep(3)
+            #data.add(self.ser.readline())
         self.stop_data()
 	
     def stop_data(self):

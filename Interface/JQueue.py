@@ -10,7 +10,7 @@ class JQueue():
         self.queue.pop(0)
         return hold
 
-    def elemenets(self):
+    def elements(self):
         return self.queue
 
     def is_empty(self):
