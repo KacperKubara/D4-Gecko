@@ -4,6 +4,9 @@ import requests
 
 class Decoder():
     def __init__(self):
+        self.grip_url          = "http://138.68.140.17/grip"
+        self.accelerometer_url = "http://138.68.140.17/accelerometer"
+        self.gyroscope_url     = "http://138.68.140.17/gyroscope"
         self.interrupt = 0
         self.force_1 = 0
         self.force_2 = 0
@@ -26,8 +29,8 @@ class Decoder():
         self.timestamp = time.time()
 
     def queue_data(self):
-        dictionary = {'front grip': self.force_1, 'rear grip': self.force_2,
-                      'bottom grip': self.force_3, 'timestamp': self.timestamp}
+        dictionary = {'front_grip': self.force_1, 'rear_grip': self.force_2,
+                      'bottom_grip': self.force_3, 'timestamp': self.timestamp}
         (self.queue).append(dictionary)
         #print(dictionary)
 
@@ -40,7 +43,14 @@ class Decoder():
             return False
         else:
             return True
-
+    def send_data(self):
+        formatted_data = {}
+        for data in self.queue:
+            formatted_data['front_grip']  = data['front_grip']
+            formatted_data['rear_grip']   = data['rear_grip']
+            formatted_data['bottom_grip'] = data['bottom_grip']
+            requests.post(self.grip_url, formatted_data)
+        
     def queue_length(self):
         while True:
             # print('queue_length(): '+ str(self.interrupt))
@@ -65,8 +75,10 @@ class Decoder():
                     time_difference = (front_time - back_time)
                     print('time difference: ' + str(time_difference))
                     if(time_difference > 3):
-                        print('SEND PROTOCOL...')
+                        print('SENDING DATA...')
                         print(self.queue)
+                        self.send_data()
+                        print('DATA HAS BEEN SENT!')
 
                         self.interrupt = False 
                         self.queue = [] # Empty the queue
