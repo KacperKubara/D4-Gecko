@@ -1,6 +1,6 @@
 import time
 import threading
-
+import requests
 
 class Decoder():
     def __init__(self):
@@ -12,6 +12,11 @@ class Decoder():
         self.queue = []
         threading.Thread(target=self.queue_length).start()
 
+    def data_manipulation(self, data):
+        self.decode_data(data)
+        boolean = self.interrupt
+        self.queue_data()
+    
     def decode_data(self, data):
         array = data.split(',')
         self.interrupt = int(array[0])
@@ -62,12 +67,10 @@ class Decoder():
                     if(time_difference > 3):
                         print('SEND PROTOCOL...')
                         print(self.queue)
-                        self.interrupt = False
 
-    def data_manipulation(self, data):
-        self.decode_data(data)
-        boolean = self.interrupt
-        self.queue_data()
+                        self.interrupt = False 
+                        self.queue = [] # Empty the queue
+
 
 
 if __name__ == '__main__':
