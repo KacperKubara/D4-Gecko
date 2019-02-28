@@ -47,6 +47,7 @@ class Decoder():
                     front_time = (self.queue[length-1])['timestamp']
                     back_time = (self.queue[0])['timestamp']
                     time_difference = (front_time - back_time)
+                    print('time difference: ' + str(time_difference))
                     if (time_difference > 2.5):
                         self.dequeue_data()
             while self.interrupt == 1:
@@ -59,7 +60,7 @@ class Decoder():
                     time_difference = (front_time - back_time)
                     print('time difference: ' + str(time_difference))
                     if(time_difference > 3):
-                        print('SEND')
+                        print('SEND PROTOCOL...')
                         print(self.queue)
                         self.interrupt = False
 
