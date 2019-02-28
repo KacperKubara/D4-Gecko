@@ -15,14 +15,13 @@ exports.post = (req, res) => {
 }
 exports.getAll = (req, res) => {
   Accelerometer_model.find({}).sort({created_at: -1})
-  .then(reading => res.status(200).send(reading))
+  .then(reading => 
+    {res.status(200).send(reading)})
   .catch(err => res.status(400).send(err));
-
 }
 
 exports.getRecent = (req, res) => {
-  
-  Accelerometer_model.findOne().sort({created_at: -1})
+   Accelerometer_model.findOne().sort({created_at: -1})
   .then(reading => res.status(200).send(reading))
   .catch(err => res.status(400).send(err));
 };

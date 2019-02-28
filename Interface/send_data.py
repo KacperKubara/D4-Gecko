@@ -9,9 +9,9 @@ accelerometer_data = {'x_axis': 100, 'y_axis': 233, 'z_axis': 110}
 gyroscope_data     = {'x_axis': 150, 'y_axis': 203, 'z_axis': 100}
 
 # Routes for POST requests
-grip_url          = "http://138.68.140.17:3000/grip"
-accelerometer_url = "http://138.68.140.17:3000/accelerometer"
-gyroscope_url     = "http://138.68.140.17:3000/gyroscope"
+grip_url          = "http://138.68.140.17/grip"
+accelerometer_url = "http://138.68.140.17/accelerometer"
+gyroscope_url     = "http://138.68.140.17/gyroscope"
 
 def unit_test():
     # Testing is_dict():
