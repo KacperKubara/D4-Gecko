@@ -15,9 +15,9 @@ class Decoder():
         self.force_3 = 0
         self.timestamp = 0
         self.accelerometer = 0
-        self.x_pos = 0
-        self.y_pos = 0
-        self.z_pos = 0
+        self.x_axis = 0
+        self.y_axis = 0
+        self.z_axis = 0
         self.queue = []
         self.final_queue = []
         threading.Thread(target=self.queue_length).start()
@@ -33,30 +33,37 @@ class Decoder():
     def decode_data(self, data):
         print(data)
         array = data.split(',')
-        self.interrupt = self.read_value(array[0])
-        self.force_1   = self.read_value(array[1])
-        self.force_2   = self.read_value(array[2])
-        self.force_3   = self.read_value(array[3])
-        self.x_pos = self.read_value(array[4])
-        self.y_pos = self.read_value(array[5])
-        self.z_pos = self.read_value(array[6])
-        self.timestamp = time.time()
+        try:
+            self.interrupt = self.read_value(array[0])
+            self.force_1   = self.read_value(array[1])
+            self.force_2   = self.read_value(array[2])
+            self.force_3   = self.read_value(array[3])
+            self.x_axis = self.read_value(array[4])
+            self.y_axis = self.read_value(array[5])
+            self.z_axis = self.read_value(array[6])
+            self.timestamp = time.time()
+        except IndexError:
+            pass
+            
         if (self.interrupt == 1):
             self.interrupt_triggered = 1
 
     def queue_data(self):
         dictionary = {'front_grip': self.force_1, 'rear_grip': self.force_2,
-                      'bottom_grip': self.force_3, 'timestamp': self.timestamp}
+                      'bottom_grip': self.force_3, 'timestamp': self.timestamp, 
+                      'x_axis' : self.x_axis, 'y_axis' : self.y_axis, 'z_axis' : self.z_axis}
         (self.queue).append(dictionary)
         #print(dictionary)
 
     def read_value(self, value):
-        if value is None:
+        try:
+            if value is None:
+                return 0
+            if type(value) is str:
+                return float(value) 
+            else: return value
+        except ValueError:
             return 0
-        if type(value) is str:
-            return float(value) 
-               
-        else: return value
 
     def dequeue_data(self):
         popped = (self.queue).pop(0)
@@ -70,11 +77,16 @@ class Decoder():
             
     def send_data(self):
         formatted_data = {}
+        formatted_data1 = {}
         for data in self.final_queue:
             formatted_data['front_grip']  = data['front_grip']
             formatted_data['rear_grip']   = data['rear_grip']
             formatted_data['bottom_grip'] = data['bottom_grip']
+            formatted_data1['x_axis'] = data['x_axis']
+            formatted_data1['y_axis'] = data['y_axis']
+            formatted_data1['z_axis'] = data['z_axis']
             requests.post(self.grip_url, formatted_data)
+            requests.post(self.accelerometer_url, formatted_data)
         
     def queue_length(self):
         while True:

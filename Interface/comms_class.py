@@ -13,7 +13,7 @@ class ArduinoSerial:
         self.grip_url          = "http://138.68.140.17/grip"
         self.accelerometer_url = "http://138.68.140.17/accelerometer"
         self.gyroscope_url     = "http://138.68.140.17/gyroscope"
-        self.ser = serial.Serial("/dev/ttyACM1",9600)
+        self.ser = serial.Serial("/dev/ttyACM0",9600)
         self.ser.baudrate = 9600
         self.get_toggle = False
         self.stop_toggle = False
