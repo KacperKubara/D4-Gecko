@@ -43,6 +43,7 @@ class Decoder():
             return False
         else:
             return True
+            
     def send_data(self):
         formatted_data = {}
         for data in self.queue:
