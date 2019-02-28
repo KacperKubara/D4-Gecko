@@ -1,11 +1,18 @@
+"""1650 27/02/2019 this works"""
+
 import threading
+import requests
 import time
 import serial #pip install pyserial
 from JQueue import JQueue #jacob made this
+from d4_conversion_classes import decode_data
 
 
 class ArduinoSerial:
     def __init__(self):
+        self.grip_url          = "http://138.68.140.17/grip"
+        self.accelerometer_url = "http://138.68.140.17/accelerometer"
+        self.gyroscope_url     = "http://138.68.140.17/gyroscope"
         self.ser = serial.Serial("/dev/ttyACM0",9600)
         self.ser.baudrate = 9600
         self.get_toggle = False
@@ -13,6 +20,7 @@ class ArduinoSerial:
         self.run = True
         threading.Thread(target=self.main_thread).start()
         self.data = JQueue()
+        self.decoder = decode_data()
         
 #thread holds for an input and does accordingly
     def main_thread(self):
@@ -51,11 +59,24 @@ class ArduinoSerial:
 
     def get_data(self):
         while self.get_toggle:
-            print(self.ser.readline())
+            #print(self.ser.readline())
+            (self.decoder).data_manipulation(self.ser.readline())
+            print((self.decoder).interrupt)
+            print((self.decoder).force_1)
+            print((self.decoder).force_2)
+            print((self.decoder).force_3)
+            print((self.decoder).timestamp)
             #time.sleep(3)
             #data.add(self.ser.readline())
         self.stop_data()
 	
+    def send_data(self):
+        # Code below will send the data if
+        # self.queue is a list of dicitonaries
+        #in the correct format
+        #for data in self.queue:
+        #   requests.post(self.accelerometer_url, data)
+        pass
     def stop_data(self):
             self.ser.write(b'B')
             print('Serial communications end')

@@ -1,10 +1,22 @@
 <head>
-        <link rel="stylesheet" href="./stylesheets/button.css">
-    </head>
-    
-    
-    <ul>
+    <link rel="stylesheet" href="./stylesheets/button.css">
+</head>
+
+
+<ul>
+    <button onclick="stop_signal()">
         <li><a href="#" class="round black">Stop<span class="round">Stops the data transmission</span></a></li>
+    </button>
+    <button onclick="reset_signal()">
         <li><a href="#" class="round green">Reset<span class="round">Resets the device</span></a></li>
+    </button>
+    <button onclick="modify_signal()">
         <li><a href="#" class="round red">Modify<span class="round">Modifies the device configuration</span></a></li>
-    </ul>
+    </button>
+</ul>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    console.log('Socket defined');
+</script>
