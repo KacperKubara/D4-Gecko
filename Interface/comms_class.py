@@ -18,9 +18,10 @@ class ArduinoSerial:
         self.get_toggle = False
         self.stop_toggle = False
         self.run = True
-        threading.Thread(target=self.main_thread).start()
+        #threading.Thread(target=self.main_thread).start()
         self.data = JQueue()
         self.decoder = decode_data()
+        self.receive_toggle = False
         
 #thread holds for an input and does accordingly
     def main_thread(self):
@@ -58,7 +59,8 @@ class ArduinoSerial:
             pass
 
     def get_data(self):
-        while self.get_toggle:
+        print('Get data thread open')
+        while self.receive_toggle:
             #print(self.ser.readline())
             (self.decoder).data_manipulation(self.ser.readline())
             print((self.decoder).interrupt)
@@ -77,14 +79,29 @@ class ArduinoSerial:
         #for data in self.queue:
         #   requests.post(self.accelerometer_url, data)
         pass
+    #socket command
     def stop_data(self):
-            self.ser.write(b'B')
-            print('Serial communications end')
+        self.ser.write(b'B')
+        self.receive_toggle = False
+        print('Serial communications end')
             
-      
-    def toggle_all_false(self, *argv):
-        for arg in argv:
-            arg = False			
+
+    #call from socket        
+    def start_data(self):
+        print('Starting serial communications')
+        self.receive_toggle = True
+        self.ser.write(b'A')
+        #might need to add self here
+        receieve_thread = threading.Thread(target=self.get_data)
+        receieve_thread.start()
+        
+    #call from socket    
+    def restart_data(self):
+        print('Restart Begin')
+        if(self.receive_toggle == True):
+            self.stop_data()
+        self.start_data()
+        
 
 
 if __name__ == "__main__":
