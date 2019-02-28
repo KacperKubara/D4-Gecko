@@ -4,17 +4,19 @@ import threading
 import time
 import serial #pip install pyserial
 from JQueue import JQueue #jacob made this
+from d4_conversion_classes import decode_data
 
 
 class ArduinoSerial:
     def __init__(self):
-        self.ser = serial.Serial("/dev/ttyACM1",9600)
+        self.ser = serial.Serial("/dev/ttyACM0",9600)
         self.ser.baudrate = 9600
         self.get_toggle = False
         self.stop_toggle = False
         self.run = True
         threading.Thread(target=self.main_thread).start()
         self.data = JQueue()
+        self.decoder = decode_data()
         
 #thread holds for an input and does accordingly
     def main_thread(self):
@@ -53,7 +55,13 @@ class ArduinoSerial:
 
     def get_data(self):
         while self.get_toggle:
-            print(self.ser.readline())
+            #print(self.ser.readline())
+            (self.decoder).data_manipulation(self.ser.readline())
+            print((self.decoder).interrupt)
+            print((self.decoder).force_1)
+            print((self.decoder).force_2)
+            print((self.decoder).force_3)
+            print((self.decoder).timestamp)
             #time.sleep(3)
             #data.add(self.ser.readline())
         self.stop_data()

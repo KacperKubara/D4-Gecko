@@ -6,7 +6,7 @@ from JQueue import JQueue #jacob made this
 
 class ArduinoSerial:
     def __init__(self):
-        self.ser = serial.Serial("/dev/ttyACM1",9600)
+        self.ser = serial.Serial("/dev/ttyACM0",9600)
         self.ser.baudrate = 9600
         self.get_toggle = False
         self.stop_toggle = False
