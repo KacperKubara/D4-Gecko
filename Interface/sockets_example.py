@@ -1,6 +1,5 @@
 import socketio 
-from d4_conversion_classes import Decoder
-import ArduinoSerial from comms_class
+from comms_class import ArduinoSerial 
 url = 'http://138.68.140.17/' # For the deployed server it will differ
 sio = socketio.Client()
 
@@ -15,19 +14,17 @@ def on_disconnect():
 @sio.on('reset')
 def on_reset(data):
     print('reset received:' + str(data))
-    inst.restart_data()
+    inst.restart_serial()
 
 @sio.on('stop')
 def on_stop(data):
     print('stop received:' + str(data))
-    sio.emit('modify', True)
-    inst.stop_data()
+    inst.stop_serial()
     
 @sio.on('start')
-def on_stop(data):
+def on_start(data):
     print('start received:' + str(data))
-    sio.emit('I\'m starting', True)
-    inst.start_data()
+    inst.start_serial()
 
 @sio.on('modify')
 def on_modify(data):
@@ -36,6 +33,9 @@ def on_modify(data):
 
 
 inst = ArduinoSerial()
-sio.connect(url)
-sio.wait()
+try:
+    sio.connect(url)
+    sio.wait()
+except ConnectionError:
+    print('Connection error')
 

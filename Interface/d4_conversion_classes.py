@@ -14,6 +14,10 @@ class Decoder():
         self.send_data_toggle = True
         self.force_3 = 0
         self.timestamp = 0
+        self.accelerometer = 0
+        self.x_pos = 0
+        self.y_pos = 0
+        self.z_pos = 0
         self.queue = []
         self.final_queue = []
         threading.Thread(target=self.queue_length).start()
@@ -27,11 +31,15 @@ class Decoder():
         print('Queue length:' + str(len(self.queue)))
     
     def decode_data(self, data):
+        print(data)
         array = data.split(',')
-        self.interrupt = int(array[0])
-        self.force_1   = int(array[1])
-        self.force_2   = int(array[2])
-        self.force_3   = int(array[3])
+        self.interrupt = self.read_value(array[0])
+        self.force_1   = self.read_value(array[1])
+        self.force_2   = self.read_value(array[2])
+        self.force_3   = self.read_value(array[3])
+        self.x_pos = self.read_value(array[4])
+        self.y_pos = self.read_value(array[5])
+        self.z_pos = self.read_value(array[6])
         self.timestamp = time.time()
         if (self.interrupt == 1):
             self.interrupt_triggered = 1
@@ -41,6 +49,14 @@ class Decoder():
                       'bottom_grip': self.force_3, 'timestamp': self.timestamp}
         (self.queue).append(dictionary)
         #print(dictionary)
+
+    def read_value(self, value):
+        if value is None:
+            return 0
+        if type(value) is str:
+            return float(value) 
+               
+        else: return value
 
     def dequeue_data(self):
         popped = (self.queue).pop(0)
@@ -120,9 +136,10 @@ class Decoder():
             self.data_manipulation('0,284,965,167')
             time.sleep(0.5)    
         
-    print('data sent')
+        print('data sent')
 
 if __name__ == '__main__':
     inst = Decoder()
+    inst.start_run()
   
     

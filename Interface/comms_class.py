@@ -5,7 +5,7 @@ import requests
 import time
 import serial #pip install pyserial
 from JQueue import JQueue #jacob made this
-from d4_conversion_classes import decode_data
+from d4_conversion_classes import Decoder
 
 
 class ArduinoSerial:
@@ -13,14 +13,14 @@ class ArduinoSerial:
         self.grip_url          = "http://138.68.140.17/grip"
         self.accelerometer_url = "http://138.68.140.17/accelerometer"
         self.gyroscope_url     = "http://138.68.140.17/gyroscope"
-        self.ser = serial.Serial("/dev/ttyACM0",9600)
+        self.ser = serial.Serial("/dev/ttyACM1",9600)
         self.ser.baudrate = 9600
         self.get_toggle = False
         self.stop_toggle = False
         self.run = True
         #threading.Thread(target=self.main_thread).start()
         self.data = JQueue()
-        self.decoder = decode_data()
+        self.decoder = Decoder()
         self.receive_toggle = False
         
 #thread holds for an input and does accordingly
@@ -63,11 +63,11 @@ class ArduinoSerial:
         while self.receive_toggle:
             #print(self.ser.readline())
             (self.decoder).data_manipulation(self.ser.readline())
-            print((self.decoder).interrupt)
-            print((self.decoder).force_1)
-            print((self.decoder).force_2)
-            print((self.decoder).force_3)
-            print((self.decoder).timestamp)
+            """print('Interupt:' + str((self.decoder).interrupt))
+            print('Force 1' + str((self.decoder).force_1))
+            print('Force 2'+str((self.decoder).force_2))
+            print('Force 3'+str((self.decoder).force_3))
+            print('time: '+ str((self.decoder).timestamp))"""
             #time.sleep(3)
             #data.add(self.ser.readline())
         self.stop_data()
@@ -80,14 +80,14 @@ class ArduinoSerial:
         #   requests.post(self.accelerometer_url, data)
         pass
     #socket command
-    def stop_data(self):
+    def stop_serial(self):
         self.ser.write(b'B')
         self.receive_toggle = False
         print('Serial communications end')
             
 
     #call from socket        
-    def start_data(self):
+    def start_serial(self):
         print('Starting serial communications')
         self.receive_toggle = True
         self.ser.write(b'A')
@@ -96,11 +96,11 @@ class ArduinoSerial:
         receieve_thread.start()
         
     #call from socket    
-    def restart_data(self):
+    def restart_serial(self):
         print('Restart Begin')
         if(self.receive_toggle == True):
-            self.stop_data()
-        self.start_data()
+            self.stop_serial()
+        self.start_serial()
         
 
 
