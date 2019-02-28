@@ -41,21 +41,25 @@ class Decoder():
             # print('queue_length(): '+ str(self.interrupt))
             while self.interrupt == 0:
                 print('interrupt == 0')
+                time.sleep(0.2)
                 if len(self.queue) >= 2:
                     length = len(self.queue)
-                    front_time = (self.queue[0])['timestamp']
-                    back_time = (self.queue[length-1])['timestamp']
+                    front_time = (self.queue[length-1])['timestamp']
+                    back_time = (self.queue[0])['timestamp']
                     time_difference = (front_time - back_time)
                     if (time_difference > 2.5):
                         self.dequeue_data()
             while self.interrupt == 1:
-               if len(self.queue) >= 2:                
+               if len(self.queue) >= 2: 
+                    time.sleep(0.2)               
                     print('interrupt == 1')
                     length = len(self.queue)
-                    front_time = (self.queue[0])['timestamp']
-                    back_time = (self.queue[length-1])['timestamp']
+                    front_time = (self.queue[length-1])['timestamp']
+                    back_time = (self.queue[0])['timestamp']
                     time_difference = (front_time - back_time)
+                    print('time difference: ' + str(time_difference))
                     if(time_difference > 3):
+                        print('SEND')
                         print(self.queue)
                         self.interrupt = False
 
@@ -79,8 +83,16 @@ if __name__ == '__main__':
     time.sleep(0.5)
     inst.data_manipulation('0,234,765,667')
     time.sleep(0.5)
+    inst.data_manipulation('0,234,765,667')
+    time.sleep(0.5)
+    inst.data_manipulation('0,234,765,667')
+    time.sleep(0.5)
+    inst.data_manipulation('0,234,765,667')
+    time.sleep(0.5)
     inst.data_manipulation('1,234,765,667')
     time.sleep(0.5)
+    inst.data_manipulation('1,234,765,667')
+    time.sleep(0.5)    
     inst.data_manipulation('0,234,765,667')
     time.sleep(0.5)
     inst.data_manipulation('0,234,765,667')
