@@ -71,8 +71,12 @@ class ArduinoSerial:
         self.stop_data()
 	
     def send_data(self):
-        for data in self.queue:
-            requests.post(self.accelerometer_url, data)
+        # Code below will send the data if
+        # self.queue is a list of dicitonaries
+        #in the correct format
+        #for data in self.queue:
+        #   requests.post(self.accelerometer_url, data)
+        pass
 
     def stop_data(self):
             self.ser.write(b'B')
