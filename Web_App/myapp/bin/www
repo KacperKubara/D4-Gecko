@@ -35,7 +35,7 @@ io.on('connection', function (socket) {
 
   socket.on('start', () => {
     console.log('start received in NodeJS');
-    socket.broadcast.emit('starts', true);
+    socket.broadcast.emit('start', true);
   });
 
   socket.on('stop', () => {
