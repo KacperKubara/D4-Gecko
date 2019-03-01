@@ -8,6 +8,8 @@ autopep8 = "*"
 
 [packages]
 requests = "*"
+pyton-socketio = {extras = ["client"],version = "*"}
+python-socketio = "*"
 
 [requires]
 python_version = "3.6"
