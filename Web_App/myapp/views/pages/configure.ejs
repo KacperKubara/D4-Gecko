@@ -4,19 +4,38 @@
 
 
 <ul>
-    <button onclick="stop_signal()">
-        <li><a href="#" class="round black">Stop<span class="round">Stops the data transmission</span></a></li>
-    </button>
-    <button onclick="reset_signal()">
-        <li><a href="#" class="round green">Reset<span class="round">Resets the device</span></a></li>
-    </button>
-    <button onclick="modify_signal()">
-        <li><a href="#" class="round red">Modify<span class="round">Modifies the device configuration</span></a></li>
-    </button>
+
+    <li><button onclick="stop_signal()"><a href="#" class="round black">Stop<span class="round"> Stops the data
+                    transmission </span></a></button></li>
+
+    <li><button onclick="reset_signal()"><a href="#" class="round green">Reset<span class="round"> Resets the device
+                </span></a></button></li>
+
+    <li><button onclick="modify_signal()"><a href="#" class="round red">Modify<span class="round">Modifies the device
+                    configuration
+                </span></a></button></li>
+
 </ul>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io();
-    console.log('Socket defined');
+    var socket_client = io();
+
+    console.log('Socket connected on the client side');
+
+    function stop_signal() {
+        console.log('Stop signal from the button emitted');
+        socket_client.emit('stop', true);
+
+    }
+
+    function reset_signal() {
+        console.log('Reset signal from the button emitted');
+        socket_client.emit('reset', true);
+    }
+
+    function modify_signal() {
+        console.log('Modify signal from the button emitted');
+        socket_client.emit('modify', true);
+    }
 </script>

@@ -23,12 +23,28 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 // IO Socket Connection
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
   console.log('a socket connected');
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function () {
     console.log('socket disconnected');
   });
+  socket.on('reset', () => {
+    console.log('reset received in NodeJS');
+    socket.broadcast.emit('reset', true);
+  });
+
+  socket.on('stop', () => {
+    console.log('stop received in NodeJS');
+    socket.broadcast.emit('stop', true); 
+  });
+
+  socket.on('modify', () => {
+    console.log('modify received in NodeJS');
+    socket.broadcast.emit('modify', true);  
+  });
 });
+
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -67,9 +83,9 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -92,8 +108,8 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
   debug('Listening on ' + bind);
 }
