@@ -24,18 +24,15 @@
     console.log('Socket connected on the client side');
 
     function stop_signal() {
-        console.log('Stop signal from the button emitted');
         socket_client.emit('stop', true);
 
     }
 
     function reset_signal() {
-        console.log('Reset signal from the button emitted');
         socket_client.emit('reset', true);
     }
 
     function modify_signal() {
-        console.log('Modify signal from the button emitted');
         socket_client.emit('modify', true);
     }
 </script>
