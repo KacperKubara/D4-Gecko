@@ -2,124 +2,102 @@ import time
 import threading
 import requests
 
-class Decoder():
+buffer_lock = threading.Lock()
+
+
+class Decoder:
     def __init__(self):
-        self.grip_url          = "http://138.68.140.17/grip"
+        self.grip_url = "http://138.68.140.17/grip"
         self.accelerometer_url = "http://138.68.140.17/accelerometer"
-        self.gyroscope_url     = "http://138.68.140.17/gyroscope"
         self.interrupt = 0
         self.interrupt_triggered = 0
-        self.force_1 = 0
-        self.force_2 = 0
-        self.send_data_toggle = True
-        self.force_3 = 0
-        self.timestamp = 0
-        self.accelerometer = 0
-        self.x_axis = 0
-        self.y_axis = 0
-        self.z_axis = 0
-        self.queue = []
-        self.final_queue = []
-        threading.Thread(target=self.queue_length).start()
+        self.buffer = []
+        threading.Thread(target=self.buffer_manager).start()
 
+    # on call adds data to list in dictionary format
     def data_manipulation(self, data):
-        self.decode_data(data)
-        boolean = self.interrupt
-        self.queue_data()
-        print('Queue:')
-        print(self.queue)
-        print('Queue length:' + str(len(self.queue)))
-    
-    def decode_data(self, data):
-        print(data)
-        array = data.split(',')
+        # decoding data received from the pi
+        data_input = data.split(',')
+        # the value in there should be parameterised in case we measure more
+        # changes all values in the array to int or float and ensures that there are seven elements
+        for i in range(7):
+            try:
+                data_input[i] = self.from_string_to_float(data_input[i])
+            except IndexError:
+                data_input.append(0)
+
+        if data_input.pop(0) == 1:
+            self.interrupt_triggered = True
+        # create dictionary and add to list
+        dictionary = {'front_grip': data_input[0], 'rear_grip': data_input[1],
+                      'bottom_grip': data_input[2], 'timestamp': time.time(),
+                      'x_axis': data_input[3], 'y_axis': data_input[4], 'z_axis': data_input[5]}
+        self.buffer.append(dictionary)
+
+        #print('Queue: ')
+        #print(self.queue)
+        print('Queue length:' + str(len(self.buffer)))
+
+    def from_string_to_float(self, value):
         try:
-            self.interrupt = self.read_value(array[0])
-            self.force_1   = self.read_value(array[1])
-            self.force_2   = self.read_value(array[2])
-            self.force_3   = self.read_value(array[3])
-            self.x_axis = self.read_value(array[4])
-            self.y_axis = self.read_value(array[5])
-            self.z_axis = self.read_value(array[6])
-            self.timestamp = time.time()
-        except IndexError:
-            pass
-            
-        if (self.interrupt == 1):
-            self.interrupt_triggered = 1
+            try:
+                return int(value)
+            except ValueError:
+                print('Value error')
+                return float(value)
+        except ValueError: # error id: could not convert string to float
+            temp = list(value)
+            for i, element in enumerate(temp):
+                try:
+                    if element is not '.':
+                        int(element)
+                except Exception as e:
+                    temp[i] = '0'
+            return float("".join(temp))
 
-    def queue_data(self):
-        dictionary = {'front_grip': self.force_1, 'rear_grip': self.force_2,
-                      'bottom_grip': self.force_3, 'timestamp': self.timestamp, 
-                      'x_axis' : self.x_axis, 'y_axis' : self.y_axis, 'z_axis' : self.z_axis}
-        (self.queue).append(dictionary)
-        #print(dictionary)
-
-    def read_value(self, value):
-        try:
-            if value is None:
-                return 0
-            if type(value) is str:
-                return float(value) 
-            else: return value
-        except ValueError:
-            return 0
-
-    def dequeue_data(self):
-        popped = (self.queue).pop(0)
-        return popped
-
-    def is_empty(self):
-        if (self.queue):
-            return False
-        else:
-            return True
-            
-    def send_data(self):
-        formatted_data = {}
-        formatted_data1 = {}
-        for data in self.final_queue:
-            formatted_data['front_grip']  = data['front_grip']
-            formatted_data['rear_grip']   = data['rear_grip']
-            formatted_data['bottom_grip'] = data['bottom_grip']
-            formatted_data1['x_axis'] = data['x_axis']
-            formatted_data1['y_axis'] = data['y_axis']
-            formatted_data1['z_axis'] = data['z_axis']
-            requests.post(self.grip_url, formatted_data)
-            requests.post(self.accelerometer_url, formatted_data)
+    def send_data(self, buffer):
+        grip_sensor_data_dict = {}
+        accelerometer_data_dict = {}
+        for element in buffer:
+            grip_sensor_data_dict['front_grip'] = element['front_grip']
+            grip_sensor_data_dict['rear_grip'] = element['rear_grip']
+            grip_sensor_data_dict['bottom_grip'] = element['bottom_grip']
+            accelerometer_data_dict['x_axis'] = element['x_axis']
+            accelerometer_data_dict['y_axis'] = element['y_axis']
+            accelerometer_data_dict['z_axis'] = element['z_axis']
+            requests.post(self.grip_url, grip_sensor_data_dict)
+            requests.post(self.accelerometer_url, grip_sensor_data_dict)
         
-    def queue_length(self):
+    def buffer_manager(self):
         while True:
             # print('queue_length(): '+ str(self.interrupt))
             while self.interrupt_triggered == 0:
-                #print(self.queue)
+                # print(self.queue)
+                # eh
                 time.sleep(0.2)
-                if len(self.queue) >= 2:
-                    #print('interrupt == 0')
-                    length = len(self.queue)
-                    #print(length)
-                    front_time = (self.queue[length-1])['timestamp']
-                    back_time = (self.queue[0])['timestamp']
+                if len(self.buffer) > 1:
+                    # print('interrupt == 0')
+                    front_time = (self.buffer[len(self.buffer) - 1])['timestamp']
+                    back_time = (self.buffer[0])['timestamp']
                     time_difference = (front_time - back_time)
-                    #print('time difference: ' + str(time_difference))
-                    if (time_difference > 2.5):
-                        self.dequeue_data()
+                    # print('time difference: ' + str(time_difference))
+                    if time_difference > 2.5:
+                        self.buffer.pop(0)
             while self.interrupt_triggered == 1:
-               if len(self.queue) >= 2: 
+                if len(self.buffer) > 1:
                     time.sleep(0.2)               
-                    #print('interrupt == 1')
-                    length = len(self.queue)
-                    front_time = (self.queue[length-1])['timestamp']
-                    back_time = (self.queue[0])['timestamp']
+                    # print('interrupt == 1')
+                    front_time = (self.buffer[len(self.buffer) - 1])['timestamp']
+                    back_time = (self.buffer[0])['timestamp']
                     time_difference = (front_time - back_time)
-                    #print('time difference: ' + str(time_difference))
-                    if(time_difference > 3):
-                        self.send_data_toggle = False
+                    # print('time difference: ' + str(time_difference))
+                    if time_difference > 3:
                         print('SENDING DATA...')
-                        print(len(self.queue))
-                        self.final_queue = self.queue
-                        self.queue = []
-                        self.send_data()
+                        # print(len(self.queue))
+                        with buffer_lock:
+                            sender_buffer = self.buffer
+                            self.buffer = []
+                        self.send_data(sender_buffer)
                         print('DATA HAS BEEN SENT!')
                         self.interrupt_triggered = False 
 
@@ -144,14 +122,7 @@ class Decoder():
         time.sleep(0.5)
         self.data_manipulation('1,234,765,667')
         time.sleep(0.5)
-        while self.send_data_toggle == True:
-            self.data_manipulation('0,284,965,167')
-            time.sleep(0.5)    
-        
-        print('data sent')
+
 
 if __name__ == '__main__':
     inst = Decoder()
-    inst.start_run()
-  
-    
