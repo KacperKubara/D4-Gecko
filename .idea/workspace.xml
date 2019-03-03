@@ -65,8 +65,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Interface/d4_conversion_classes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="91" column="47" lean-forward="true" selection-start-line="91" selection-start-column="47" selection-end-line="91" selection-end-column="47" />
+            <state relative-caret-position="324">
+              <caret line="82" column="71" lean-forward="true" selection-end-line="128" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
                 <marker date="1551650994734" expanded="true" signature="1496:1505" ph="..." />
@@ -273,8 +273,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Interface/d4_conversion_classes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="91" column="47" lean-forward="true" selection-start-line="91" selection-start-column="47" selection-end-line="91" selection-end-column="47" />
+        <state relative-caret-position="324">
+          <caret line="82" column="71" lean-forward="true" selection-end-line="128" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
             <marker date="1551650994734" expanded="true" signature="1496:1505" ph="..." />
