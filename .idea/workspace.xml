@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4f0501f8-9b9e-454a-aac7-15e97e66f9cc" name="Default Changelist" comment="" />
+    <list default="true" id="4f0501f8-9b9e-454a-aac7-15e97e66f9cc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Interface/d4_conversion_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/d4_conversion_classes.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +31,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="2788" />
+          <entry key="py" value="2793" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2788" />
+          <entry key="Python" value="2793" />
         </counts>
       </usages-collector>
     </session>
@@ -65,11 +67,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Interface/d4_conversion_classes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="82" column="71" lean-forward="true" selection-end-line="128" />
+            <state relative-caret-position="412">
+              <caret line="74" column="35" lean-forward="true" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <marker date="1551650994734" expanded="true" signature="1496:1505" ph="..." />
+                <marker date="1551651541904" expanded="true" signature="1496:1505" ph="..." />
               </folding>
             </state>
           </provider>
@@ -139,6 +141,11 @@
             <path>
               <item name="D4-Gecko" type="b2602c69:ProjectViewProjectNode" />
               <item name="D4-Gecko" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="D4-Gecko" type="b2602c69:ProjectViewProjectNode" />
+              <item name="D4-Gecko" type="462c0819:PsiDirectoryNode" />
+              <item name=".vscode" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="D4-Gecko" type="b2602c69:ProjectViewProjectNode" />
@@ -273,11 +280,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Interface/d4_conversion_classes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="82" column="71" lean-forward="true" selection-end-line="128" />
+        <state relative-caret-position="412">
+          <caret line="74" column="35" lean-forward="true" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1551650994734" expanded="true" signature="1496:1505" ph="..." />
+            <marker date="1551651541904" expanded="true" signature="1496:1505" ph="..." />
           </folding>
         </state>
       </provider>

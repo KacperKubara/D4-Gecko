@@ -77,15 +77,9 @@ class Decoder:
                 time.sleep(0.2)
                 if len(self.buffer) > 1:
                     # print('interrupt == 0')
-<<<<<<< HEAD
                     tn = (self.buffer[len(self.buffer) - 1])['timestamp']
                     t0 = (self.buffer[0])['timestamp']
                     time_difference = (tn - t0)
-=======
-                    front_time = (self.buffer[len(self.buffer) - 1])['timestamp']
-                    back_time = (self.buffer[0])['timestamp']
-                    time_difference = (front_time - back_time)
->>>>>>> b01269d09f3e2cf52b7b4aedac98dae7377a887e
                     # print('time difference: ' + str(time_difference))
                     if time_difference > 2.5:
                         self.buffer.pop(0)
@@ -93,15 +87,9 @@ class Decoder:
                 if len(self.buffer) > 1:
                     time.sleep(0.2)               
                     # print('interrupt == 1')
-<<<<<<< HEAD
                     tn = (self.buffer[len(self.buffer) - 1])['timestamp']
                     t0 = (self.buffer[0])['timestamp']
                     time_difference = (tn - t0)
-=======
-                    front_time = (self.buffer[len(self.buffer) - 1])['timestamp']
-                    back_time = (self.buffer[0])['timestamp']
-                    time_difference = (front_time - back_time)
->>>>>>> b01269d09f3e2cf52b7b4aedac98dae7377a887e
                     # print('time difference: ' + str(time_difference))
                     if time_difference > 3:
                         print('SENDING DATA...')
