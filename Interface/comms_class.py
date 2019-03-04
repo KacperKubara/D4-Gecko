@@ -53,7 +53,7 @@ class ArduinoSerial:
         if self.receive_toggle == True:
             print('Send stop command')
         else:
-            #self.ser.write(b'D')
+            self.ser.write(b'D')
             print('Working')
             
         
