@@ -14,8 +14,8 @@ def on_disconnect():
 
 @sio.on('reset')
 def on_reset(data):
-    print('reset received:' + str(data))
-    inst.restart_serial()
+    print('modify:' + str(data))
+    inst.configure_arduino()
 
 @sio.on('stop')
 def on_stop(data):
@@ -27,10 +27,6 @@ def on_start(data):
     print('start received:' + str(data))
     inst.start_serial()
 
-@sio.on('modify')
-def on_modify(data):
-    print('modify received:' + str(data))
-    return('TEST')
 
 
 inst = ArduinoSerial()

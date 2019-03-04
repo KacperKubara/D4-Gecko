@@ -48,4 +48,13 @@ class ArduinoSerial:
             self.start_serial()
         elif self.receive_toggle == False:
             self.start_serial()
+            
+    def configure_arduino(self):
+        if self.receive_toggle == True:
+            print('Send stop command')
+        else:
+            #self.ser.write(b'D')
+            print('Working')
+            
+        
 

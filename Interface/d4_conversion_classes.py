@@ -33,7 +33,7 @@ class Decoder:
                       'bottom_grip': data_input[2], 'timestamp': time.time(),
                       'x_axis': data_input[3], 'y_axis': data_input[4], 'z_axis': data_input[5]}
         self.buffer.append(dictionary)
-        print('New value' + str(dictionary))
+        #print('New value' + str(dictionary))
 
     def from_string_to_float(self, value):
         try:
@@ -86,6 +86,7 @@ class Decoder:
                         with buffer_lock:
                             sender_buffer = self.buffer
                             self.buffer = []
+                        print(sender_buffer)
                         self.send_data(sender_buffer)
                         print('DATA HAS BEEN SENT!')
                         self.interrupt_triggered = False 
