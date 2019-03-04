@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/grip/recent')
+fetch('http://138.68.140.17/grip/recent')
     .then(res => res.json())
     .then(function renderChart(response) {
     var ctx = document.getElementById("recent_grip");

@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/grip/all')
+fetch('http://138.68.140.17/grip/all')
   .then(res => res.json())
   .then(response => {
     let labels = [];
