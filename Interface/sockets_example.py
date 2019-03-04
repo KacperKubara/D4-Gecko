@@ -9,6 +9,7 @@ def on_connect():
 
 @sio.on('disconnect')
 def on_disconnect():
+    #should probably stop end serial comms
     print('I\'m disconnected!')
 
 @sio.on('reset')
@@ -36,6 +37,6 @@ inst = ArduinoSerial()
 try:
     sio.connect(url)
     sio.wait()
-except ConnectionError:
-    print('Connection error')
+except Exception as e:
+    print(e)
 
